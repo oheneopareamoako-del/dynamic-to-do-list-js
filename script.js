@@ -1,13 +1,13 @@
 // Wait until the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function () {
     // Select elements
-    const addButton = document.getElementById('add-task-btn');
+    const addButton = document.getElementById('add-task');
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
     // Function to add a new task
     function addTask() {
-        const taskText = taskInput.value.trim(); // get and trim input
+        const taskText = taskInput.value.trim(); // get the value and remove spaces
 
         if (taskText === "") {
             alert("Please enter a task!");
