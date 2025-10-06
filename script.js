@@ -1,49 +1,44 @@
-// Wait until the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function () {
-    // Select elements
-    const addButton = document.getElementById('add-task');
-    const taskInput = document.getElementById('task-input');
-    const taskList = document.getElementById('task-list');
+// Select DOM elements
+const addButton = document.getElementById("add-task-btn");
+const taskInput = document.getElementById("task-input");
+const taskList = document.getElementById("task-list");
 
-    // Function to add a new task
-    function addTask() {
-        const taskText = taskInput.value.trim(); // get the value and remove spaces
+// Function to add a new task
+function addTask() {
+    const taskText = taskInput.value.trim();
 
-        if (taskText === "") {
-            alert("Please enter a task!");
-            return;
-        }
-
-        // Create a new list item
-        const li = document.createElement('li');
-        li.textContent = taskText;
-
-        // Create a remove button
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = "Remove";
-        removeBtn.className = "remove-btn";
-
-        // When remove button is clicked, remove the task
-        removeBtn.onclick = function () {
-            taskList.removeChild(li);
-        };
-
-        // Append remove button to li, then li to the task list
-        li.appendChild(removeBtn);
-        taskList.appendChild(li);
-
-        // Clear the input field
-        taskInput.value = "";
+    if (taskText === "") {
+        alert("Please enter a task!");
+        return;
     }
 
-    // Add event listener for button click
-    addButton.addEventListener('click', addTask);
+    // Create list item
+    const li = document.createElement("li");
+    li.textContent = taskText;
 
-    // Add event listener for pressing Enter key
-    taskInput.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            addTask();
-        }
-    });
+    // Create remove button
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.classList.add("remove-btn");
+
+    // Remove functionality
+    removeBtn.onclick = function () {
+        taskList.removeChild(li);
+    };
+
+    // Append
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
+
+    // Clear input
+    taskInput.value = "";
+}
+
+// Event listeners
+addButton.addEventListener("click", addTask);
+taskInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        addTask();
+    }
 });
 
