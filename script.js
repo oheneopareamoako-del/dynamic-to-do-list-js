@@ -5,16 +5,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("task-input");
     const taskList = document.getElementById("task-list");
 
-    // Function to add a new task
-    function addTask() {
-        const taskText = taskInput.value.trim();
+    // Load tasks from local storage
+    function loadTasks() {
+        const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        savedTasks.forEach(taskText => {
+            createTaskElement(taskText);
+        });
+    }
 
-        if (taskText === "") {
-            alert("Please enter a task!");
-            return;
-        }
+    // Save tasks to local storage
+    function saveTasks() {
+        const tasks = [];
+        taskList.querySelectorAll("li").forEach(li => {
+            // Get task text without the "Remove" button text
+            const taskText = li.firstChild.textContent.trim();
+            tasks.push(taskText);
+        });
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
 
-        // Create list item
+    // Function to create a task element
+    function createTaskElement(taskText) {
         const li = document.createElement("li");
         li.textContent = taskText;
 
@@ -26,11 +37,25 @@ document.addEventListener("DOMContentLoaded", function () {
         // Remove functionality
         removeBtn.onclick = function () {
             taskList.removeChild(li);
+            saveTasks();
         };
 
         // Append
         li.appendChild(removeBtn);
         taskList.appendChild(li);
+    }
+
+    // Function to add a new task
+    function addTask() {
+        const taskText = taskInput.value.trim();
+
+        if (taskText === "") {
+            alert("Please enter a task!");
+            return;
+        }
+
+        createTaskElement(taskText);
+        saveTasks();
 
         // Clear input
         taskInput.value = "";
@@ -44,5 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
             addTask();
         }
     });
-});
 
+    // Load tasks when page loads
+    loadTasks();
+});
